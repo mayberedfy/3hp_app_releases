@@ -6,7 +6,7 @@ This repository hosts the official APK releases for the **3HP App**.
 
 ## 📥 Download Latest
 
-Check the [Releases page](https://github.com/YOUR_USERNAME/3hp-app-releases/releases) for the latest APK.
+Check the [Releases page](https://github.com/mayberedfy/3hp-app-releases/releases) for the latest APK.
 
 ## 📱 Installation
 
