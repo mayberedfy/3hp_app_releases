@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="3HP App — Android APK 下载">
+<title>3HP App — 下载</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #039be5;
+    --primary-dark: #0288d1;
+    --bg: #fafafa;
+    --card-bg: #fff;
+    --text: #1d1d1f;
+    --text-secondary: #86868b;
+    --border: #e5e5ea;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+    --shadow-md: 0 4px 20px rgba(0,0,0,.08);
+    --shadow-lg: 0 12px 48px rgba(0,0,0,.12);
+    --radius: 20px;
+    --radius-sm: 12px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    width: 100%;
+    background: linear-gradient(180deg, #e3f2fd 0%, #fafafa 100%);
+    padding: 72px 24px 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .app-icon {
+    width: 104px; height: 104px;
+    margin-bottom: 28px;
+    background: linear-gradient(135deg, #039be5, #00bcd4);
+    border-radius: 26px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 12px 40px rgba(3,155,229,.3);
+  }
+  .app-icon svg { width: 52px; height: 52px; fill: #fff; }
+
+  .hero h1 {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #0277bd, #039be5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero .tagline {
+    font-size: 20px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .hero .version-badge {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: rgba(255,255,255,.7);
+    backdrop-filter: blur(10px);
+    padding: 5px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,.06);
+  }
+
+  /* ===== DOWNLOAD CARD ===== */
+  .download-card {
+    width: 100%;
+    max-width: 520px;
+    margin: -28px auto 0;
+    padding: 0 24px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .download-card-inner {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    border: 1px solid var(--border);
+  }
+
+  .download-btn {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 80px;
+    padding: 22px 32px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 16px;
+    text-decoration: none;
+    transition: background .2s, transform .15s, box-shadow .15s;
+    box-shadow: 0 4px 20px rgba(3,155,229,.35);
+    cursor: pointer;
+    border: none;
+  }
+  .download-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(3,155,229,.45);
+  }
+  .download-btn:active { transform: translateY(0); }
+
+  .download-btn .btn-icon-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 4px;
+  }
+  .download-btn .btn-icon-row svg {
+    width: 28px; height: 28px; fill: #fff; flex-shrink: 0;
+  }
+
+  .download-btn .btn-meta {
+    font-size: 14px;
+    font-weight: 400;
+    opacity: .85;
+    margin-top: 2px;
+  }
+
+  /* QR section inside card */
+  .qr-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: #f8f9fa;
+    border-radius: var(--radius-sm);
+    width: 100%;
+    justify-content: center;
+  }
+
+  .qr-section canvas {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    flex-shrink: 0;
+  }
+
+  .qr-text {
+    text-align: left;
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .qr-text strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .qr-divider {
+    width: 100%;
+    display: flex; align-items: center; gap: 16px;
+    color: #a1a1a6;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .qr-divider::before, .qr-divider::after {
+    content: ""; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ===== INSTALL GUIDE ===== */
+  .guide-section {
+    width: 100%;
+    max-width: 600px;
+    padding: 0 24px 80px;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -.5px;
+    margin-bottom: 10px;
+    margin-top: 64px;
+  }
+  .section-subtitle {
+    text-align: center;
+    font-size: 17px;
+    color: var(--text-secondary);
+    margin-bottom: 36px;
+  }
+
+  .step-list { list-style: none; }
+  .step-list li {
+    display: flex; gap: 18px; align-items: flex-start;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .step-list li:last-child { border-bottom: none; }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    background: #f0f0f5;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 17px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .step-body { font-size: 17px; line-height: 1.6; padding-top: 5px; }
+  .step-body strong { font-weight: 700; }
+
+  /* ===== HISTORY LINK ===== */
+  .alt-link {
+    text-align: center;
+    margin-top: 40px;
+    padding: 24px;
+    font-size: 16px;
+    color: var(--text-secondary);
+    background: var(--card-bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+  }
+  .alt-link a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .alt-link a:hover { text-decoration: underline; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 0 24px 48px;
+    font-size: 14px;
+    color: #c7c7cc;
+  }
+  footer a { color: #c7c7cc; text-decoration: none; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .hero { padding: 56px 20px 48px; }
+    .hero h1 { font-size: 32px; }
+    .hero .tagline { font-size: 17px; }
+    .app-icon { width: 84px; height: 84px; border-radius: 22px; }
+    .app-icon svg { width: 42px; height: 42px; }
+
+    .download-card { max-width: none; padding: 0 16px; margin-top: -20px; }
+    .download-card-inner { padding: 24px 20px; gap: 20px; }
+    .download-btn { font-size: 19px; min-height: 70px; padding: 18px 24px; }
+    .download-btn .btn-icon-row svg { width: 24px; height: 24px; }
+
+    .qr-section { flex-direction: column; text-align: center; }
+    .qr-text { text-align: center; }
+
+    .section-title { font-size: 24px; }
+    .section-subtitle { font-size: 15px; margin-bottom: 32px; }
+    .step-body { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========================== HERO ========================== -->
+<section class="hero">
+  <div class="app-icon">
+    <!--
+      🔧 替换为你的 App 图标 SVG
+      可以到 https://www.svgrepo.com 找一个合适的 icon
+    -->
+    <svg viewBox="0 0 24 24"><path d="M13 2L3 14h6l-1 8 10-12h-6l1-8z"/></svg>
+  </div>
+  <h1>3HP App</h1>
+  <p class="tagline">你的 App 描述 &mdash; 简短有力的标语</p>
+  <!-- ⚠️ 每次发布时手动更新版本号 -->
+  <span class="version-badge">v1.0.0 &middot; Android</span>
+</section>
+
+<!-- ========================== DOWNLOAD CARD ========================== -->
+<section class="download-card">
+  <div class="download-card-inner">
+
+    <!--
+      🔗 主下载按钮 — 始终指向 Latest Release 的 APK
+      格式: https://github.com/{你的用户名}/{release仓库名}/releases/latest/download/{APK文件名}
+    -->
+    <!-- ⚠️ 把下面两处 YOUR_USERNAME 和 REPO_NAME 替换成你实际的 -->
+    <a class="download-btn"
+       href="https://github.com/mayberedfy/3hp_app_releases/releases/latest/download/app-arm64-v8a-release.apk"
+       id="downloadLink">
+      <span class="btn-icon-row">
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        下载 Android APK
+      </span>
+      <span class="btn-meta">arm64-v8a &middot; Android 6.0+</span>
+    </a>
+
+    <!-- Divider -->
+    <div class="qr-divider">或扫码下载</div>
+
+    <!-- QR Code -->
+    <div class="qr-section">
+      <canvas id="qrCanvas" width="130" height="130"></canvas>
+      <div class="qr-text">
+        <strong>手机扫码</strong><br>
+        直接下载安装包<br>
+        无需数据线
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========================== INSTALL GUIDE ========================== -->
+<section class="guide-section">
+  <h2 class="section-title">安装指引</h2>
+  <p class="section-subtitle">首次安装？跟着步骤走</p>
+
+  <ol class="step-list">
+    <li>
+      <span class="step-num">1</span>
+      <span class="step-body">点击上方按钮，将 APK 文件下载到手机</span>
+    </li>
+    <li>
+      <span class="step-num">2</span>
+      <span class="step-body">打开文件管理器或浏览器下载列表，<strong>点击 APK 文件</strong></span>
+    </li>
+    <li>
+      <span class="step-num">3</span>
+      <span class="step-body">若提示"禁止安装未知应用"，点击<strong>「设置」</strong></span>
+    </li>
+    <li>
+      <span class="step-num">4</span>
+      <span class="step-body">开启<strong>「允许安装未知应用」</strong>开关，返回即可继续</span>
+    </li>
+    <li>
+      <span class="step-num">5</span>
+      <span class="step-body">点击<strong>「安装」</strong>，完成后打开 App 即可使用</span>
+    </li>
+  </ol>
+
+  <div class="alt-link">
+    如需其他版本或历史版本，请访问
+    <!-- ⚠️ 替换用户名和仓库名 -->
+    <a href="https://github.com/mayberedfy/3hp_app_releases/releases">GitHub Releases</a>
+  </div>
+</section>
+
+<footer>
+  3HP App &copy; 2026 &middot; 基于 Flutter 构建
+</footer>
+
+<!-- ====================== QR CODE JS ====================== -->
+<script>
+(function(){
+  // ⚠️ 把这里的 URL 改成和上面下载按钮一样的地址
+  const DURL = "https://github.com/mayberedfy/3hp_app_releases/releases/latest/download/app-arm64-v8a-release.apk";
+  const canvas = document.getElementById("qrCanvas");
+  if (!canvas) return;
+  const img = new Image();
+  img.onload = function() {
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, 130, 130);
+  };
+  img.src = "https://api.qrserver.com/v1/create-qr-code/?size=130x130&data="
+           + encodeURIComponent(DURL);
+})();
+</script>
+
+</body>
+</html>
